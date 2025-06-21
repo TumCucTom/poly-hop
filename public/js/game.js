@@ -542,4 +542,12 @@ class Game {
             gameState: this.gameState
         };
     }
+
+    /**
+     * Compatibility method used by older minting code.
+     * Returns the current score without exposing internal state shape.
+     */
+    getScore() {
+        return this.score;
+    }
 } 

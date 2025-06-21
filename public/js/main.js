@@ -217,6 +217,10 @@ function updateCharacter() {
 }
 
 async function mintCharacter() {
+    // Retro-compatibility shim: ensure game.getScore exists
+    if (game && typeof game.getScore !== 'function') {
+        game.getScore = () => game && typeof game.score === 'number' ? game.score : 0;
+    }
     try {
         const mintBtn = document.getElementById('mint-character');
         mintBtn.disabled = true;

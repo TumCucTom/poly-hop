@@ -31,3 +31,14 @@ add a button that requests camera access
 ```
 show the user camera and mediapipe skeleton on the screen and have a log of all the moves made
 ```
+
+```
+consider this project and how polygon minting of character designs may fit into this
+integrate a simple but functional implementation of the minting process where users pay a small amount of gas
+```
+
+```
+0xCb0d18F697C255bCb029F3950F58A8Dafd91E373
+
+is the deployed address (on polygon amoy testnet), update the game's mint file
+```
