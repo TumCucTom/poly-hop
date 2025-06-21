@@ -19,7 +19,9 @@ See the **POLYGON** amoy testnet contract [here](https://amoy.polygonscan.com/ad
 
 ---
 
-## ✨ Demo Screenshots
+## ✨ Demo video and photos
+
+![demo video](poly-demo.MOV)
 
 ![Gameplay Screenshot](docs/Screenshot%202025-06-21%20at%2023.08.20.png)
 
