@@ -3,7 +3,7 @@
 
 # 🎮 Poly-Hop — IRL? Platformer & Polygon NFT Minter
 
-A retro 8-bit platformer you play **with your body**. Lean left/right, jump, crouch — MediaPipe Pose turns you into the controller. When you’ve perfected your look, mint the avatar as an on-chain NFT on Polygon (Amoy test-net for now).
+A retro 8-bit platformer you play **with your body**. Lean left/right, jump, crouch — MediaPipe Pose turns you into the controller. When you've perfected your look, mint the avatar as an on-chain NFT on Polygon (Amoy test-net for now).
 
 ---
 
@@ -19,11 +19,20 @@ See the **POLYGON** amoy testnet contract [here](https://amoy.polygonscan.com/ad
 
 ## ✨ Demo Screenshots
 
-| Camera Setup | Gameplay |
-| :--: | :--: |
-| ![Camera Setup](docs/assets/camera-setup-placeholder.png) | ![Gameplay](docs/assets/gameplay-placeholder.png) |
+**Gameplay**
+![Gameplay Screenshot](docs/Screenshot%202025-06-21%20at%2023.08.20.png)
 
-*(Add your own screenshots in `docs/assets/` and they’ll appear here.)*
+**Minting**
+![Minting Screenshot](docs/Screenshot%202025-06-21%20at%2023.09.10.png)
+
+**Editor**
+![Pixel Editor](docs/Screenshot%202025-06-21%20at%2023.09.32.png)
+
+**Custom Character**
+![Custom Character in Game](docs/Screenshot%202025-06-21%20at%2023.09.49.png)
+
+**AI Generation**
+![AI Generation](docs/Screenshot%202025-06-21%20at%2023.10.03.png)
 
 ---
 
@@ -88,7 +97,7 @@ $ npm run dev        # or: node server.js
 # navigate to http://localhost:3001
 ```
 
-Grant webcam permission → Click “Start Body Tracking” → Play!
+Grant webcam permission → Click "Start Body Tracking" → Play!
 
 ---
 
