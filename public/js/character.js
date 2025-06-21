@@ -20,6 +20,14 @@ class Character {
         this.skinTone = 'medium';
         this.outfit = 'adventurer';
         this.hair = 'spiky';
+
+        /**
+         * Optional user-drawn pixel override. 2-D array same dims as getCharacterPixelData()
+         * or a flat 16x24 string encoded in hex palette indices. When present this takes
+         * precedence over built-in generator.
+         * @type {string|null}
+         */
+        this.customPixelData = null;
         
         // Character states
         this.isMoving = false;
@@ -57,6 +65,14 @@ class Character {
                 straight: '#2f1810'
             }
         };
+    }
+
+    /**
+     * Update the entire custom pixel buffer from editor.
+     * Accepts a flat string where every char encodes a palette index in hex (0-F).
+     */
+    setCustomPixelData(hexString) {
+        this.customPixelData = hexString;
     }
 
     update() {
@@ -190,6 +206,10 @@ class Character {
     }
 
     getCharacterPixelData() {
+        // If user designed a sprite, decode and return it.
+        if (this.customPixelData) {
+            return this.decodeCustomPixelData(this.customPixelData);
+        }
         // 16x24 pixel character data
         const baseCharacter = [
             // Row 0-7: Head and hair
@@ -226,6 +246,40 @@ class Character {
         // Add outfit-specific details
         const outfitDetails = this.getOutfitDetails();
         return this.mergePixelData(baseCharacter, outfitDetails);
+    }
+
+    /**
+     * Convert flat hex string back into 2-D array of color codes.
+     */
+    decodeCustomPixelData(hexStr) {
+        const width = 16;
+        const height = 24;
+        const data = [];
+        for (let y = 0; y < height; y++) {
+            const row = [];
+            for (let x = 0; x < width; x++) {
+                const idx = y * width + x;
+                const h = hexStr[idx];
+                row.push(this.hexToPalette(h));
+            }
+            data.push(row);
+        }
+        return data;
+    }
+
+    // Map hex chars to palette; extend as needed
+    hexToPalette(h) {
+        const map = {
+            '0': null,
+            '1': 'skin',
+            '2': 'hair',
+            '3': 'outfit1',
+            '4': 'outfit2',
+            '5': 'outfit3',
+            '6': 'eye',
+            '7': 'mouth'
+        };
+        return map[h] ?? null;
     }
 
     getOutfitDetails() {

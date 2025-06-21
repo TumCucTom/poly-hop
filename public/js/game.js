@@ -46,6 +46,9 @@ class Game {
 
         // Reset character and level
         this.character = new Character(100, 300);
+        if (window.customPixelHex) {
+            this.character.setCustomPixelData(window.customPixelHex);
+        }
         this.generateLevel();
 
         console.log('▶️ Game Started');
