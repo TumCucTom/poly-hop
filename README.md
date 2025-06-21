@@ -1,6 +1,8 @@
 [![Deploy Status](https://img.shields.io/badge/Deployed%20on-Vercel-00C7B7?style=for-the-badge&logo=vercel)](https://poly-hop.thomasbale.com)
 [![Issues](https://img.shields.io/badge/Issues-VibeOps-FF6B6B?style=for-the-badge)](https://github.com/TumCucTom/poly-hop/issues)
 
+![Pixel Editor](docs/boing.jpg)
+
 # 🎮 Poly-Hop — IRL? Platformer & Polygon NFT Minter
 
 A retro 8-bit platformer you play **with your body**. Lean left/right, jump, crouch — MediaPipe Pose turns you into the controller. When you've perfected your look, mint the avatar as an on-chain NFT on Polygon (Amoy test-net for now).
@@ -22,8 +24,6 @@ See the **POLYGON** amoy testnet contract [here](https://amoy.polygonscan.com/ad
 ## ✨ Demo video and photos
 
 ![demo video](docs/poly-demo.MOV)
-
-![Pixel Editor](docs/boing.jpg)
 
 ![Gameplay Screenshot](docs/boing1.jpg)
 
