@@ -1,3 +1,6 @@
+[![Deploy Status](https://img.shields.io/badge/Deployed%20on-Vercel-00C7B7?style=for-the-badge&logo=vercel)](https://bld-cube.thomasbale.com)
+[![Issues](https://img.shields.io/badge/Issues-VibeOps-FF6B6B?style=for-the-badge)](https://github.com/TumCucTom/blind-cube/issues)
+
 # 🎮 Poly-Hop: Webcam-Controlled Platformer
 
 A retro-style 2D platformer game where you control your character using full-body movements tracked via your webcam! Built with MediaPipe pose detection, p5.js, and designed for Polygon blockchain integration.
