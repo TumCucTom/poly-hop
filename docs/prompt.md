@@ -41,3 +41,16 @@ integrate a simple but functional implementation of the minting process where us
 0xCb0d18F697C255bCb029F3950F58A8Dafd91E373
 is the deployed address (on polygon amoy testnet), update the game's mint file
 ```
+
+```
+expand the customisability of a character so people can design their own character bit by bit (it opens a popup where they can select a colour and click squares to check their chatacter) - maintain the low profile of the minting metadata somehow (this can be lossless)
+```
+
+```
+add a LLM that is specifically designed to take a text based description of a design and convert that to a text based output that represents which colours in which squares - these are automatically applied to the edit section.
+
+So the user prompts the LLM (whatever best model used with a groq call)
+The backend has a system prompt that makes the prompt give an output for only the colours and positions
+These are automatically applied to the eidt grid
+The user sees the grid with updates automatically
+```
