@@ -1,0 +1,626 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Press Start 2P', monospace;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #e94560;
+    min-height: 100vh;
+    overflow-x: auto;
+}
+
+/* Modal Overlay Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border: 3px solid #e94560;
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 0 30px rgba(233, 69, 96, 0.5);
+    animation: modalSlideIn 0.5s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e94560;
+}
+
+.modal-header h2 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    color: #e94560;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.modal-header p {
+    font-size: 0.8em;
+    color: #f0f0f0;
+}
+
+.modal-body {
+    margin-bottom: 20px;
+}
+
+.setup-steps {
+    margin-bottom: 30px;
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border: 1px solid rgba(233, 69, 96, 0.3);
+    transition: all 0.3s ease;
+}
+
+.step.active {
+    border-color: #4ecdc4;
+    background: rgba(78, 205, 196, 0.1);
+}
+
+.step-number {
+    background: #e94560;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.step-content h3 {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    color: #e94560;
+}
+
+.step-content p {
+    font-size: 0.7em;
+    color: #f0f0f0;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.modal-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+}
+
+.modal-btn.primary {
+    background: linear-gradient(45deg, #4ecdc4, #44a08d);
+    color: white;
+}
+
+.modal-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(45deg, #44a08d, #4ecdc4);
+}
+
+.modal-btn.success {
+    background: linear-gradient(45deg, #4ecdc4, #26a69a);
+    color: white;
+}
+
+.modal-btn.success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(45deg, #26a69a, #4ecdc4);
+}
+
+.modal-btn:disabled {
+    background: #666666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.setup-info {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(233, 69, 96, 0.3);
+}
+
+.setup-info h4 {
+    font-size: 0.9em;
+    color: #4ecdc4;
+    margin-bottom: 10px;
+}
+
+.setup-info ul {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.setup-info li {
+    font-size: 0.6em;
+    color: #f0f0f0;
+    margin-bottom: 5px;
+    padding-left: 15px;
+    position: relative;
+}
+
+.setup-info li:before {
+    content: "▶";
+    color: #e94560;
+    position: absolute;
+    left: 0;
+}
+
+.tips {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(233, 69, 96, 0.3);
+}
+
+.modal-status {
+    text-align: center;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(233, 69, 96, 0.3);
+}
+
+/* Status message styles */
+.status-info {
+    color: #2196F3;
+    font-weight: 500;
+}
+
+.status-success {
+    color: #4CAF50;
+    font-weight: 500;
+}
+
+.status-warning {
+    color: #FF9800;
+    font-weight: 500;
+}
+
+.status-error {
+    color: #F44336;
+    font-weight: 500;
+}
+
+/* Modal status styles */
+#modal-status-text {
+    padding: 10px;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.05);
+    margin-top: 15px;
+    text-align: center;
+    font-weight: 500;
+}
+
+#modal-status-text.status-info {
+    background: rgba(33, 150, 243, 0.1);
+    border: 1px solid rgba(33, 150, 243, 0.3);
+}
+
+#modal-status-text.status-success {
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+#modal-status-text.status-warning {
+    background: rgba(255, 152, 0, 0.1);
+    border: 1px solid rgba(255, 152, 0, 0.3);
+}
+
+#modal-status-text.status-error {
+    background: rgba(244, 67, 54, 0.1);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+/* Pose status styles */
+#pose-status {
+    padding: 8px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.05);
+    margin-top: 10px;
+    text-align: center;
+    font-weight: 500;
+}
+
+#pose-status.status-info {
+    background: rgba(33, 150, 243, 0.1);
+    border: 1px solid rgba(33, 150, 243, 0.3);
+}
+
+#pose-status.status-success {
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+#pose-status.status-warning {
+    background: rgba(255, 152, 0, 0.1);
+    border: 1px solid rgba(255, 152, 0, 0.3);
+}
+
+#pose-status.status-error {
+    background: rgba(244, 67, 54, 0.1);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+/* Hide modal when game is ready */
+.modal-overlay.hidden {
+    display: none;
+}
+
+.game-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid #e94560;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(233, 69, 96, 0.3);
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px #e94560; }
+    to { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px #e94560, 0 0 30px #e94560; }
+}
+
+.controls-info {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    font-size: 0.8em;
+    color: #f0f0f0;
+}
+
+.game-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.webcam-section, .game-section {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid #e94560;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.webcam-section h3, .game-section h3 {
+    margin-bottom: 15px;
+    color: #e94560;
+    font-size: 1.2em;
+}
+
+.camera-controls {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.camera-btn {
+    padding: 10px 16px;
+    background: linear-gradient(45deg, #4ecdc4, #44a08d);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.6em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.camera-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(45deg, #44a08d, #4ecdc4);
+}
+
+.camera-btn:active {
+    transform: translateY(0);
+}
+
+.camera-btn:disabled {
+    background: #666666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+#webcam, #pose-canvas {
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+    border: 2px solid #e94560;
+    border-radius: 8px;
+    background: #000;
+    margin-bottom: 10px;
+
+    /* Mirror the video and overlayed pose canvas so movements feel natural */
+    transform: scaleX(-1);
+}
+
+/* Display video and canvas as stacked elements */
+#pose-canvas {
+    position: static;
+    pointer-events: none;
+    margin-top: 10px;
+}
+
+.webcam-section {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pose-info {
+    font-size: 0.7em;
+    color: #f0f0f0;
+}
+
+#game-canvas-container {
+    border: 2px solid #e94560;
+    border-radius: 8px;
+    background: #000;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+}
+
+.game-stats {
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.8em;
+    color: #f0f0f0;
+}
+
+.character-customization {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid #e94560;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.character-customization h3 {
+    margin-bottom: 20px;
+    color: #e94560;
+    font-size: 1.2em;
+}
+
+.customization-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-group label {
+    font-size: 0.7em;
+    color: #f0f0f0;
+}
+
+.control-group select {
+    padding: 8px 12px;
+    background: #1a1a2e;
+    color: #e94560;
+    border: 2px solid #e94560;
+    border-radius: 5px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.6em;
+    cursor: pointer;
+}
+
+.control-group select:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+}
+
+.mint-btn {
+    padding: 12px 24px;
+    background: linear-gradient(45deg, #e94560, #ff6b6b);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.mint-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(45deg, #ff6b6b, #e94560);
+}
+
+.mint-btn:active {
+    transform: translateY(0);
+}
+
+.movement-log {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid #e94560;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.movement-log h3 {
+    margin-bottom: 15px;
+    color: #e94560;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+#movement-log-content {
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 0.6em;
+    color: #f0f0f0;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #e94560;
+}
+
+.movement-entry {
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(233, 69, 96, 0.3);
+}
+
+.movement-entry:last-child {
+    border-bottom: none;
+}
+
+.movement-entry.jump { color: #4ecdc4; }
+.movement-entry.left { color: #45b7d1; }
+.movement-entry.right { color: #96ceb4; }
+.movement-entry.duck { color: #feca57; }
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .game-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .customization-controls {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 1.8em;
+    }
+    
+    .controls-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    #webcam, #pose-canvas {
+        height: 200px;
+    }
+    
+    #game-canvas-container {
+        min-height: 300px;
+    }
+    
+    .camera-controls {
+        flex-direction: column;
+    }
+    
+    .modal-content {
+        padding: 20px;
+        width: 95%;
+    }
+    
+    .step {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .step-number {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e94560;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ff6b6b;
+} 

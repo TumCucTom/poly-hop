@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MediaPipe Pose Quick Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 1rem;
+        background: #111;
+        color: #eee;
+      }
+      canvas,
+      video {
+        border: 1px solid #444;
+        background: #000;
+      }
+      pre {
+        background: #222;
+        padding: 0.5rem;
+        height: 120px;
+        overflow: auto;
+      }
+      button {
+        padding: 0.5rem 1rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+      }
+    </style>
+
+    <!-- MediaPipe libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/pose.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3.1675466862/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3.1675466862/drawing_utils.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <h1>MediaPipe Pose Quick Test</h1>
+    <button id="startBtn">📷 Start Test</button>
+    <br />
+    <video id="video" width="640" height="480" autoplay muted></video>
+    <canvas id="output" width="640" height="480"></canvas>
+    <h2>Log</h2>
+    <pre id="log"></pre>
+
+    <script>
+      // Simple helper to log to <pre> and console
+      const log = (msg) => {
+        document.getElementById("log").textContent += msg + "\n";
+        console.log(msg);
+      };
+
+      // Report initial library presence
+      window.addEventListener("load", () => {
+        log("Page loaded.");
+        log(`Pose global: ${typeof Pose}`);
+        log(`Camera utils global: ${typeof Camera}`);
+        log(`drawConnectors global: ${typeof drawConnectors}`);
+        log(`drawLandmarks global: ${typeof drawLandmarks}`);
+      });
+
+      document.getElementById("startBtn").addEventListener("click", async () => {
+        try {
+          // Basic feature checks
+          if (typeof Pose === "undefined" || typeof Camera === "undefined") {
+            log("❌ MediaPipe libraries not loaded – check network / CSP");
+            return;
+          }
+
+          const videoElement = document.getElementById("video");
+          const canvasElement = document.getElementById("output");
+          const canvasCtx = canvasElement.getContext("2d");
+
+          // Create Pose instance
+          const pose = new Pose({
+            locateFile: (file) =>
+              `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/${file}`,
+          });
+          pose.setOptions({
+            modelComplexity: 0,
+            smoothLandmarks: true,
+            enableSegmentation: false,
+            minDetectionConfidence: 0.5,
+            minTrackingConfidence: 0.5,
+          });
+
+          pose.onResults((results) => {
+            canvasCtx.save();
+            canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+            if (results.poseLandmarks) {
+              drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
+                color: "#00FF00",
+                lineWidth: 2,
+              });
+              drawLandmarks(canvasCtx, results.poseLandmarks, {
+                color: "#FF0000",
+                lineWidth: 1,
+              });
+            }
+            canvasCtx.restore();
+          });
+
+          // Kick-off camera
+          const camera = new Camera(videoElement, {
+            onFrame: async () => {
+              await pose.send({ image: videoElement });
+            },
+            width: 640,
+            height: 480,
+          });
+
+          await camera.start();
+          log("✅ Camera started – processing frames now");
+        } catch (err) {
+          console.error(err);
+          log("❌ Error: " + err.message);
+        }
+      });
+    </script>
+  </body>
+</html> 

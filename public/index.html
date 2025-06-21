@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poly-Hop - Webcam Platformer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <!-- MediaPipe Libraries (latest stable) -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    
+    <!-- Basic presence check -->
+    <script>
+        window.mediaPipeLoaded = false;
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const libsReady =
+                    typeof Pose !== 'undefined' &&
+                    typeof Camera !== 'undefined' &&
+                    typeof drawConnectors === 'function' &&
+                    typeof drawLandmarks === 'function';
+                if (libsReady) {
+                    window.mediaPipeLoaded = true;
+                    console.log('✅ MediaPipe libraries loaded successfully');
+                } else {
+                    console.warn('⚠️ MediaPipe libraries not loaded properly');
+                    console.log('Pose available:', typeof Pose !== 'undefined');
+                    console.log('Camera available:', typeof Camera !== 'undefined');
+                    console.log('drawConnectors available:', typeof drawConnectors !== 'undefined');
+                    console.log('drawLandmarks available:', typeof drawLandmarks !== 'undefined');
+                }
+            }, 2000);
+        });
+    </script>
+    <!-- end MediaPipe check -->
+</head>
+<body>
+    <!-- Camera Access Modal Overlay -->
+    <div id="camera-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🎮 Welcome to Poly-Hop!</h2>
+                <p>This game uses your webcam to track body movements</p>
+            </div>
+            
+            <div class="modal-body">
+                <div class="setup-steps">
+                    <div class="step" id="step-1">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>📷 Grant Camera Access</h3>
+                            <p>Click the button below to allow webcam access</p>
+                            <button id="request-camera-modal" class="modal-btn primary">📷 Request Camera Access</button>
+                        </div>
+                    </div>
+                    
+                    <div class="step" id="step-2" style="display: none;">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>🎯 Start Body Tracking</h3>
+                            <p>Initialize pose detection to control your character</p>
+                            <button id="start-tracking-modal" class="modal-btn primary">🎯 Start Body Tracking</button>
+                        </div>
+                    </div>
+                    
+                    <div class="step" id="step-3" style="display: none;">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>🎮 Ready to Play!</h3>
+                            <p>Your camera is ready. Click to start the game!</p>
+                            <button id="start-game" class="modal-btn success">🎮 Start Game</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="setup-info">
+                    <h4>🎯 How to Control Your Character:</h4>
+                    <ul>
+                        <li><strong>Jump:</strong> Raise your arms or jump</li>
+                        <li><strong>Move Left/Right:</strong> Lean your body left or right</li>
+                        <li><strong>Duck:</strong> Lower your body or crouch</li>
+                    </ul>
+                    
+                    <div class="tips">
+                        <h4>💡 Tips for Best Experience:</h4>
+                        <ul>
+                            <li>Stand 6-8 feet from your webcam</li>
+                            <li>Ensure good lighting</li>
+                            <li>Make sure your full body is visible</li>
+                            <li>Wear contrasting clothing for better detection</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-status">
+                <div id="modal-status-text">Click "Request Camera Access" to begin</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="game-container">
+        <div class="header">
+            <h1>🎮 Poly-Hop</h1>
+            <div class="controls-info">
+                <span>📹 Move your body to control the character!</span>
+                <span>🔄 Jump = Jump | ←→ = Lean left/right | ↓ = Duck</span>
+            </div>
+        </div>
+        
+        <div class="game-layout">
+            <div class="webcam-section">
+                <h3>📹 Webcam Feed</h3>
+                <div class="camera-controls">
+                    <button id="request-camera" class="camera-btn">📷 Request Camera Access</button>
+                    <button id="start-tracking" class="camera-btn" style="display: none;">🎯 Start Body Tracking</button>
+                </div>
+                <video id="webcam" autoplay muted></video>
+                <canvas id="pose-canvas"></canvas>
+                <div class="pose-info">
+                    <div id="pose-status">Click "Request Camera Access" to begin</div>
+                    <div id="pose-confidence">Confidence: 0%</div>
+                </div>
+            </div>
+            
+            <div class="game-section">
+                <h3>🎮 Game</h3>
+                <div id="game-canvas-container"></div>
+                <div class="game-stats">
+                    <div>Score: <span id="score">0</span></div>
+                    <div>Lives: <span id="lives">3</span></div>
+                    <div>Level: <span id="level">1</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="character-customization">
+            <h3>👤 Character Customization</h3>
+            <div class="customization-controls">
+                <div class="control-group">
+                    <label>Skin Tone:</label>
+                    <select id="skin-tone">
+                        <option value="light">Light</option>
+                        <option value="medium">Medium</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Outfit:</label>
+                    <select id="outfit">
+                        <option value="adventurer">Adventurer</option>
+                        <option value="knight">Knight</option>
+                        <option value="wizard">Wizard</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Hair:</label>
+                    <select id="hair">
+                        <option value="spiky">Spiky</option>
+                        <option value="curly">Curly</option>
+                        <option value="straight">Straight</option>
+                    </select>
+                </div>
+                <button id="mint-character" class="mint-btn">🚀 Mint Character on Polygon</button>
+            </div>
+        </div>
+        
+        <div class="movement-log">
+            <h3>📊 Movement Log</h3>
+            <div id="movement-log-content"></div>
+        </div>
+    </div>
+    
+    <script src="js/pose-detection.js"></script>
+    <script src="js/character.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 
