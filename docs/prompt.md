@@ -39,6 +39,5 @@ integrate a simple but functional implementation of the minting process where us
 
 ```
 0xCb0d18F697C255bCb029F3950F58A8Dafd91E373
-
 is the deployed address (on polygon amoy testnet), update the game's mint file
 ```

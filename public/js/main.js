@@ -50,8 +50,8 @@ function setupEventListeners() {
     document.getElementById('outfit').addEventListener('change', updateCharacter);
     document.getElementById('hair').addEventListener('change', updateCharacter);
     
-    // Mint character
-    document.getElementById('mint-character').addEventListener('click', mintCharacter);
+    // Mint character (legacy simulated flow) - DISABLED now handled by mint.js
+    // document.getElementById('mint-character').addEventListener('click', mintCharacter);
 
     // Global keyboard controls (e.g., restart on SPACE)
     document.addEventListener('keydown', (e) => {
@@ -216,7 +216,8 @@ function updateCharacter() {
     console.log('👤 Character updated:', { skinTone, outfit, hair });
 }
 
-async function mintCharacter() {
+// Legacy simulated mint – kept for reference but no longer wired to UI
+async function mintCharacter_legacy() {
     // Retro-compatibility shim: ensure game.getScore exists
     if (game && typeof game.getScore !== 'function') {
         game.getScore = () => game && typeof game.score === 'number' ? game.score : 0;
