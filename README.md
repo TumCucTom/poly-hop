@@ -23,11 +23,9 @@ See the **POLYGON** amoy testnet contract [here](https://amoy.polygonscan.com/ad
 
 ![demo video](poly-demo.MOV)
 
-![Gameplay Screenshot](docs/Screenshot%202025-06-21%20at%2023.08.20.png)
+![Pixel Editor](boing.png)
 
-![Minting Screenshot](docs/Screenshot%202025-06-21%20at%2023.09.10.png)
-
-![Pixel Editor](docs/Screenshot%202025-06-21%20at%2023.09.32.png)
+![Gameplay Screenshot](docs/boing1.png)
 
 ![Custom Character in Game](docs/Screenshot%202025-06-21%20at%2023.09.49.png)
 
