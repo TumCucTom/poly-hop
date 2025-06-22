@@ -1,3 +1,5 @@
++ many debugging prompts that can be shared upon request but below are the first prompts that introduce new features / start a debug prompt spree
+
 ```
 Build a 2D low-bit (8- or 16-bit style) platformer game in the browser where players control a customizable character using full-body movements tracked via their webcam.
 
